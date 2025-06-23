@@ -5,6 +5,10 @@ import platform
 import psutil
 import os
 from config import PERPLEXITY_API_KEY, PERPLEXITY_SETTINGS
+from desktop_agent import DesktopAgent
+
+# Initialize desktop agent
+desktop_agent = DesktopAgent()
 
 def get_current_time():
     """Get the current system time."""
@@ -77,6 +81,54 @@ def get_system_stats():
         
     except Exception as e:
         return f"Sorry, I couldn't retrieve system stats: {str(e)}"
+
+def open_application(app_name):
+    """Open an application by name."""
+    return desktop_agent.open_application(app_name)
+
+def take_screenshot(filename=None):
+    """Take a screenshot of the entire screen."""
+    return desktop_agent.take_screenshot(filename)
+
+def click_position(x, y):
+    """Click at specific coordinates."""
+    return desktop_agent.click_position(x, y)
+
+def type_text(text):
+    """Type text at current cursor position."""
+    return desktop_agent.type_text(text)
+
+def press_key(key):
+    """Press a specific key."""
+    return desktop_agent.press_key(key)
+
+def get_screen_size():
+    """Get screen dimensions."""
+    return desktop_agent.get_screen_size()
+
+def get_mouse_position():
+    """Get current mouse position."""
+    return desktop_agent.get_mouse_position()
+
+def scroll(direction, amount=3):
+    """Scroll up or down."""
+    return desktop_agent.scroll(direction, amount)
+
+def close_active_window():
+    """Close the currently active window."""
+    return desktop_agent.close_active_window()
+
+def minimize_window():
+    """Minimize the currently active window."""
+    return desktop_agent.minimize_window()
+
+def get_running_apps():
+    """Get list of currently running applications."""
+    return desktop_agent.get_running_apps()
+
+def copy_to_clipboard(text):
+    """Copy text to clipboard."""
+    return desktop_agent.copy_to_clipboard(text)
 
 def get_web_data(query):
     """Fetch real-time web data about a topic or question using Perplexity API."""
@@ -156,6 +208,110 @@ FUNCTIONS = [
         "parameters": {"type": "object", "properties": {}}
     },
     {
+        "name": "open_application",
+        "description": "Open an application by name (e.g., chrome, safari, terminal, calculator, spotify, mail, messages, photos, music, notes, calendar, reminders, maps, weather, clock, settings).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "app_name": {"type": "string", "description": "The name of the application to open"}
+            },
+            "required": ["app_name"]
+        }
+    },
+    {
+        "name": "take_screenshot",
+        "description": "Take a screenshot of the entire screen.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filename": {"type": "string", "description": "Optional filename for the screenshot"}
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "click_position",
+        "description": "Click at specific screen coordinates.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "x": {"type": "integer", "description": "X coordinate"},
+                "y": {"type": "integer", "description": "Y coordinate"}
+            },
+            "required": ["x", "y"]
+        }
+    },
+    {
+        "name": "type_text",
+        "description": "Type text at the current cursor position.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "text": {"type": "string", "description": "The text to type"}
+            },
+            "required": ["text"]
+        }
+    },
+    {
+        "name": "press_key",
+        "description": "Press a specific key (e.g., enter, space, tab, escape, backspace, delete, up, down, left, right).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {"type": "string", "description": "The key to press"}
+            },
+            "required": ["key"]
+        }
+    },
+    {
+        "name": "get_screen_size",
+        "description": "Get the screen dimensions in pixels.",
+        "parameters": {"type": "object", "properties": {}}
+    },
+    {
+        "name": "get_mouse_position",
+        "description": "Get the current mouse cursor position.",
+        "parameters": {"type": "object", "properties": {}}
+    },
+    {
+        "name": "scroll",
+        "description": "Scroll up or down on the current page.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "direction": {"type": "string", "description": "Scroll direction: 'up' or 'down'"},
+                "amount": {"type": "integer", "description": "Number of scroll units (default: 3)"}
+            },
+            "required": ["direction"]
+        }
+    },
+    {
+        "name": "close_active_window",
+        "description": "Close the currently active window.",
+        "parameters": {"type": "object", "properties": {}}
+    },
+    {
+        "name": "minimize_window",
+        "description": "Minimize the currently active window.",
+        "parameters": {"type": "object", "properties": {}}
+    },
+    {
+        "name": "get_running_apps",
+        "description": "Get a list of currently running applications.",
+        "parameters": {"type": "object", "properties": {}}
+    },
+    {
+        "name": "copy_to_clipboard",
+        "description": "Copy text to the system clipboard.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "text": {"type": "string", "description": "The text to copy to clipboard"}
+            },
+            "required": ["text"]
+        }
+    },
+    {
         "name": "get_web_data",
         "description": "Fetch real-time web data about a topic or question (especially post-2020 events, news, or anything involving today, recent, or this week).",
         "parameters": {
@@ -174,5 +330,17 @@ FUNCTION_MAP = {
     "open_any_url": open_any_url,
     "simple_calculator": simple_calculator,
     "get_system_stats": get_system_stats,
+    "open_application": open_application,
+    "take_screenshot": take_screenshot,
+    "click_position": click_position,
+    "type_text": type_text,
+    "press_key": press_key,
+    "get_screen_size": get_screen_size,
+    "get_mouse_position": get_mouse_position,
+    "scroll": scroll,
+    "close_active_window": close_active_window,
+    "minimize_window": minimize_window,
+    "get_running_apps": get_running_apps,
+    "copy_to_clipboard": copy_to_clipboard,
     "get_web_data": get_web_data
 } 

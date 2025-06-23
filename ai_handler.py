@@ -58,6 +58,33 @@ class AIHandler:
                     return FUNCTION_MAP[fn_name](arguments["expression"])
                 elif fn_name == "get_system_stats":
                     return FUNCTION_MAP[fn_name]()
+                elif fn_name == "open_application":
+                    return FUNCTION_MAP[fn_name](arguments["app_name"])
+                elif fn_name == "take_screenshot":
+                    filename = arguments.get("filename")
+                    return FUNCTION_MAP[fn_name](filename)
+                elif fn_name == "click_position":
+                    return FUNCTION_MAP[fn_name](arguments["x"], arguments["y"])
+                elif fn_name == "type_text":
+                    return FUNCTION_MAP[fn_name](arguments["text"])
+                elif fn_name == "press_key":
+                    return FUNCTION_MAP[fn_name](arguments["key"])
+                elif fn_name == "get_screen_size":
+                    return FUNCTION_MAP[fn_name]()
+                elif fn_name == "get_mouse_position":
+                    return FUNCTION_MAP[fn_name]()
+                elif fn_name == "scroll":
+                    direction = arguments["direction"]
+                    amount = arguments.get("amount", 3)
+                    return FUNCTION_MAP[fn_name](direction, amount)
+                elif fn_name == "close_active_window":
+                    return FUNCTION_MAP[fn_name]()
+                elif fn_name == "minimize_window":
+                    return FUNCTION_MAP[fn_name]()
+                elif fn_name == "get_running_apps":
+                    return FUNCTION_MAP[fn_name]()
+                elif fn_name == "copy_to_clipboard":
+                    return FUNCTION_MAP[fn_name](arguments["text"])
                 elif fn_name == "get_web_data":
                     return FUNCTION_MAP[fn_name](arguments["query"])
                 else:

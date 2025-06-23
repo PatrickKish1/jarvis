@@ -40,6 +40,20 @@ class Jarvis:
                 self.stop()
                 break
             
+            # Check for conversation management commands
+            if text.lower() == "clear history":
+                response = self.ai_handler.clear_conversation_history()
+                print(f"Jarvis: {response}")
+                self.speech_handler.speak(response)
+                continue
+            
+            if text.lower() == "conversation stats":
+                stats = self.ai_handler.get_conversation_stats()
+                response = f"Conversation stats: {stats['total_interactions']} interactions, {stats['total_tool_calls']} tool calls, average {stats['average_tools_per_interaction']:.1f} tools per interaction."
+                print(f"Jarvis: {response}")
+                self.speech_handler.speak(response)
+                continue
+            
             # Process query if it contains "jarvis"
             query = text.lower().replace("jarvis", "").strip()
             if query:
@@ -60,4 +74,12 @@ class Jarvis:
                 response = self.ai_handler.process_query(query)
                 print(f"Jarvis: {response}")
                 return response
-        return None 
+        return None
+    
+    def get_conversation_stats(self):
+        """Get conversation statistics."""
+        return self.ai_handler.get_conversation_stats()
+    
+    def clear_history(self):
+        """Clear conversation history."""
+        return self.ai_handler.clear_conversation_history() 
